@@ -90,15 +90,15 @@ view: ndt_dynamic_targeting {
 # We can add episode selection, But I don't want to add the title&season&episode combo now, because it would become too confusing
 #for now let's limit selection to (title and/or season) OR title&season combo
 
-      bind_filters: {
-        to_field: netflixoriginals.IsNetflixOriginalFullName
-        from_field: ndt_dynamic_targeting.IsNetflixOriginalFullNameFilter
-      }
+#       bind_filters: {
+#         to_field: netflixoriginals.IsNetflixOriginalFullName
+#         from_field: ndt_dynamic_targeting.IsNetflixOriginalFullNameFilter
+#       }
 
-      bind_filters: {
-        to_field: genresflattened.genre
-        from_field: ndt_dynamic_targeting.genreFilter
-      }
+#       bind_filters: {
+#         to_field: genresflattened.genre
+#         from_field: ndt_dynamic_targeting.genreFilter
+#       }
 
       bind_filters: {
         to_field: ext_paneldata_fce.dayssincefirstviewed
@@ -163,20 +163,20 @@ view: ndt_dynamic_targeting {
     suggest_dimension: episodes.seasonnumber_IFNULL
   }
 
-  filter: IsNetflixOriginalFullNameFilter {
-    type: string
-    view_label: "Dynamic Targeting Filters"
-    label: "Is Netflix Original?"
-    suggest_dimension: netflixoriginals.IsNetflixOriginalFullName
-    hidden: yes ##SDR following MR request 19/08/2020
-  }
+#   filter: IsNetflixOriginalFullNameFilter {
+#     type: string
+#     view_label: "Dynamic Targeting Filters"
+#     label: "Is Netflix Original?"
+#     suggest_dimension: netflixoriginals.IsNetflixOriginalFullName
+#     hidden: yes ##SDR following MR request 19/08/2020
+#   }
 
-  filter: genreFilter {
-    type: string
-    view_label: "Dynamic Targeting Filters"
-    label: "Primary Genre"
-    suggest_dimension: genresflattened.genre
-  }
+#   filter: genreFilter {
+#     type: string
+#     view_label: "Dynamic Targeting Filters"
+#     label: "Primary Genre"
+#     suggest_dimension: genresflattened.genre
+#   }
 
   filter: dayssincefirstviewedfilter {
     type: number

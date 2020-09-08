@@ -28,7 +28,7 @@ view: releasedate {
                    left join core.PANELDATAINTERNATIONAL pdq
                    on tm.titleid=pdq.titleid
                        LEFT JOIN core.Episodes e
-                       ON e.netflixid=tm.netflixid and ifnull(e.EpisodeID,1) = ifnull(tm.EpisodeID,1)
+                       ON e.netflixid=tm.netflixid and ifnull(e.EpisodeID,'1') = ifnull(tm.EpisodeID,'1')
                                 where pdq.diid is not null and tm.netflixid is not NULL
                                 --AND tm.NETFLIXID =80148535 AND pdq.country='UK'
 
@@ -84,7 +84,7 @@ view: releasedate {
 ##################################################################################
 
   dimension: netflixid {
-    type: number
+    type: string
     sql: ${TABLE}."NETFLIXID" ;;
     hidden: yes
   }

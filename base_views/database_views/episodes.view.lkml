@@ -57,7 +57,7 @@ view: episodes {
 
   dimension: episodeid {
     primary_key: yes
-    type: number
+    type: string
     sql: ${TABLE}."EPISODEID" ;;
     hidden: yes
   }

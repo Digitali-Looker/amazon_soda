@@ -47,6 +47,7 @@ view_label: "Content Selection"
     label: "Synopsis"
     description: "This is a brief summary of the plot (according to Netflix)"
     can_filter: no
+    hidden: yes
   }
 
   dimension: title {
@@ -64,9 +65,10 @@ view_label: "Content Selection"
     label: "Image"
 #     hidden: yes
     can_filter: no
+    hidden: yes
   }
   dimension: netflixid {
-    type: number
+    type: string
     value_format_name: id
     sql: ${TABLE}."NETFLIXID" ;;
      hidden: yes

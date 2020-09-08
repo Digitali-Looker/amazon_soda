@@ -95,13 +95,13 @@ view: title_lookup {
   }
 
   dimension: netflixid {
-    type: number
+    type: string
     sql: ${TABLE}.Netflixid ;;
     hidden: yes
   }
 
   dimension: episode_id {
-    type: number
+    type: string
     sql: ${TABLE}.EpisodeID ;;
     hidden: yes
   }

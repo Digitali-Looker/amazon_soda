@@ -23,107 +23,7 @@ explore: navigation_bar {
 } ##SDR 18/03/2020
 
 
-####################################################################################################################################################
-####################################################################################################################################################
-####################################################################################################################################################
 
-# explore: paneldata {
-#   label: "Netflix International"
-#   view_name: paneldata
-#
-# explore: base_paneldata {
-#   view_name: paneldata
-#
-#   label: "DEV - Base Explore"
-#
-#   #hidden: yes
-#
-# #DS temp hidden cause it seems to hide all the explores, need to investigate
-#
-#
-#   sql_always_where: ${titlemaster.netflixid} is not null
-#   --and ${householddemo.demoid} IS NOT NULL
-#   ;;    ##SDR 02032020 -to get around
-#   ##TF 13032020 - commented our demoid is not null due to Internationalweighting
-#
-#
-#   #DS added always join
-#   always_join: [titlemaster,householddemo,internationalweights]
-#
-#
-#   join: titlemaster {
-#     sql_on: ${paneldata.titleid} = ${titlemaster.titleid} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: contentmaster {
-#     sql_on: ${contentmaster.netflixid} = ${titlemaster.netflixid} ;;
-#     relationship: many_to_one
-#   }
-#
-#   join: episodes {
-#     sql_on: ${episodes.episodeid} = ${titlemaster.episodeid};;
-#     relationship: many_to_one
-#   }
-#
-# ##-----------------------------------------------------------------
-#
-#   join: householddemo {
-#     sql_on: ${paneldata.respondantid} = ${householddemo.rid}
-#         and ${paneldata.country} = ${householddemo.country} ;;
-#     relationship: many_to_one
-#   }
-#
-# #   join: finalweights {
-# #     sql_on: ${finalweights.demoid}= ${householddemo.demoid}
-# #        and year(${paneldata.date_raw}) = ${finalweights.panelyear}
-# #        and QUARTER(${paneldata.date_raw}) = ${finalweights.panelquarter}
-# #        and ${paneldata.country} = ${finalweights.country};;
-# #     relationship: many_to_one
-# #   }
-#
-#   join: internationalweights {
-#     sql_on: ${paneldata.respondantid} = ${internationalweights.rid}
-#     and year(${paneldata.date_raw}) = ${internationalweights.panelyear}
-#        and QUARTER(${paneldata.date_raw}) = ${internationalweights.panelquarter}
-#        and ${paneldata.country} = ${internationalweights.country}
-#     ;;
-#     relationship: many_to_one
-#   }
-#   ## TF05 Added the join for InternationalWeights
-#
-#   join: uni_size {
-#     sql_on: 1=1 ;;
-#
-#     relationship: one_to_one
-#   }
-#
-#
-# ####################################################################################################################################################
-# ##Additional Tables
-#
-# # join: titlegenres {
-# #   sql_on: ${titlegenres.netflixid} = ${titlemaster.netflixid} ;;
-# #   relationship: many_to_many
-# # }
-#
-# join:  genresflattened {
-#   sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
-#   relationship: many_to_one
-#   }
-#
-# join: netflixoriginals {
-#   sql_on: ${netflixoriginals.netflixid} = ${titlemaster.netflixid} ;;
-#   relationship: many_to_one
-# }
-#
-#
-#
-#
-# }
-####################################################################################################################################################
-####################################################################################################################################################
-####################################################################################################################################################
 
 explore: ext_paneldata_fce {
 
@@ -135,11 +35,11 @@ explore: ext_paneldata_fce {
   label: "Amazon Client Explore"
 
 
-  always_filter: {
-    filters: {
-      field: ext_paneldata_fce.countrynameformaps
-    }
-  }
+#   always_filter: {
+#     filters: {
+#       field: ext_paneldata_fce.countrynameformaps
+#     }
+#   }
 
   #############################################################################################################################
   ## DS 20/03/20
@@ -147,7 +47,8 @@ explore: ext_paneldata_fce {
 
 
   sql_always_where: ${titlemaster.netflixid} is not null
-  and ( ${titlemaster.videotype} is not null)
+  and ( ${ext_paneldata_fce.titleid} is not null)
+  and ${cliptrailerflag.clipflag} = 0 and ${cliptrailerflag.trailerflag}= 0
   and ${country} in ( {{ _user_attributes['netflix_v2_country_access'] }} )
   and ${date_raw} >= '{{ _user_attributes['netflix_v2_start'] }}'
   and ${date_raw} <= '{{ _user_attributes['netflix_v2_end'] }}'
@@ -196,11 +97,7 @@ explore: ext_paneldata_fce {
     }
     ## TF05 Added the join for InternationalWeights
 
-#     join: uni_size {
-#       sql_on: 1=1 ;;
-#
-#       relationship: one_to_one
-#     }
+
   join: pop_size {
     sql_on: ${pop_size.country}=${ext_paneldata_fce.country} and ${pop_size.panelyear}=year(${ext_paneldata_fce.date_raw}) and ${pop_size.panelquarter}=QUARTER(${ext_paneldata_fce.date_raw})
       ;;
@@ -208,21 +105,21 @@ explore: ext_paneldata_fce {
   }
 
 
-    join:  genresflattened {
-      sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
-      relationship: many_to_one
-    }
+#     join:  genresflattened {
+#       sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
+#       relationship: many_to_one
+#     }
 
-    join: netflixoriginals {
-      sql_on: ${netflixoriginals.netflixid} = ${titlemaster.netflixid} ;;
-      relationship: many_to_one
-    }
+#     join: netflixoriginals {
+#       sql_on: ${netflixoriginals.netflixid} = ${titlemaster.netflixid} ;;
+#       relationship: many_to_one
+#     }
 
-##SDR 15/06/2020
-    join: imdbinfo {
-      sql_on: ${imdbinfo.netflixid} = ${titlemaster.netflixid} ;;
-      relationship: many_to_one
-    }
+# ##SDR 15/06/2020
+#     join: imdbinfo {
+#       sql_on: ${imdbinfo.netflixid} = ${titlemaster.netflixid} ;;
+#       relationship: many_to_one
+#     }
 
   ###############################################################################################################################
 
@@ -233,10 +130,6 @@ explore: ext_paneldata_fce {
   }
 
 
-#   join: title_lookup_suggestions {
-#     sql_on: ${titlemaster.titleid} = ${title_lookup_suggestions.title_id} ;;
-#     relationship: many_to_one
-#   }
 
   join: NDT_reach {
     sql_on: ${NDT_reach.diid}=${ext_paneldata_fce.diid}
@@ -284,46 +177,20 @@ explore: ext_paneldata_fce {
     type: inner
   }
 
-join: vw_netflixoriginalsexclusives {
-  sql_on: ${vw_netflixoriginalsexclusives.titleid} = ${titlemaster.titleid} ;;
+# join: vw_netflixoriginalsexclusives {
+#   sql_on: ${vw_netflixoriginalsexclusives.titleid} = ${titlemaster.titleid} ;;
+#   relationship: one_to_one
+# }
+
+join: cliptrailerflag {
+  sql_on: ${ext_paneldata_fce.diid}=${cliptrailerflag.diid} ;;
   relationship: one_to_one
 }
+
+
 }
 
 
-####################################################################################################################################################
-####################################################################################################################################################
-####################################################################################################################################################
-
-# explore: didevexplore {
-#     extends: [base_paneldata]
-#
-#   label: "DEV - Genre (all instances) Explore"
-#
-#
-#   join: titlegenres {
-#   sql_on: ${contentmaster.netflixid} = ${titlegenres.netflixid} ;;
-#   relationship: many_to_one
-#   type: left_outer
-# }
-#
-# # ##this is an embarassment but as i cant dimensionify a measure which gave the titles rankings this is the best i could do for now
-# # join: genre_top_x_titles {
-# #   sql_on: ${genre_top_x_titles.netflixid} = ${titlegenres.netflixid}  ;;
-# #   relationship: many_to_one
-# # }
-#
-#   join: NDT_genretitlestreams {
-#     sql_on:
-#             ${NDT_genretitlestreams.netflixid} = ${titlegenres.netflixid}
-#         and ${NDT_genretitlestreams.genre}    = ${titlegenres.genre};;
-#     relationship: many_to_one
-#   }
-#
-# #   --     ${NDT_genretitlestreams.netflixid} = ${titlemaster.netflixid}
-#
-# }
-## DS 18/03/20 Genres db is now based off primary genre, with non-unique genre joined to the dashboardbuilding explore just in case we need it. This whole explore can now be disabled
 
 
 
@@ -340,18 +207,19 @@ explore: dashboardexplore {
 
   fields: [ALL_FIELDS*, -title_lookup.titleseason_fce, -title_lookup.titleonly_fce, -title_lookup.titleseasonepisode_fce]
 
-  always_filter: {
-    filters: {
-      field: paneldata.countrynameformaps
-    }
-  }
+#   always_filter: {
+#     filters: {
+#       field: paneldata.countrynameformaps
+#     }
+#   }
 
 
   #############################################################################################################################
   ## DS 20/03/20
   ## Adding base explore joins
 
-  sql_always_where: ${titlemaster.netflixid} is not null and ( ${titlemaster.videotype} is not null)
+  sql_always_where: ${titlemaster.netflixid} is not null and ( ${paneldata.titleid} is not null)
+                    and ${cliptrailerflag.clipflag} = 0 and ${cliptrailerflag.trailerflag}= 0
                     and ${country} in ( {{ _user_attributes['netflix_v2_country_access'] }} )
                     and ${date_raw} >= '{{ _user_attributes['netflix_v2_start'] }}'
                     and ${date_raw} <= '{{ _user_attributes['netflix_v2_end'] }}'
@@ -401,11 +269,6 @@ explore: dashboardexplore {
     }
     ## TF05 Added the join for InternationalWeights
 
-#     join: uni_size_dashboards {
-#       sql_on: 1=1 ;;
-#
-#       relationship: one_to_one
-#     }
 
     join: pop_size_dashboards {
       sql_on: ${pop_size_dashboards.country}=${paneldata.country} and ${pop_size_dashboards.panelyear}=year(${paneldata.date_raw}) and ${pop_size_dashboards.panelquarter}=QUARTER(${paneldata.date_raw})
@@ -419,21 +282,21 @@ explore: dashboardexplore {
 #       and {% if householddemo.housholdplatform._is_selected %} ${pop_size.housholdplatform}=${householddemo.housholdplatform} {% else %} 1=1 {% endif %}
 
 
-    join:  genresflattened {
-      sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
-      relationship: many_to_one
-    }
+#     join:  genresflattened {
+#       sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
+#       relationship: many_to_one
+#     }
 
-    join: netflixoriginals {
-      sql_on: ${netflixoriginals.netflixid} = ${titlemaster.netflixid} ;;
-      relationship: many_to_one
-    }
+#     join: netflixoriginals {
+#       sql_on: ${netflixoriginals.netflixid} = ${titlemaster.netflixid} ;;
+#       relationship: many_to_one
+#     }
 
-##SDR 15/06/2020
-  join: imdbinfo {
-    sql_on: ${imdbinfo.netflixid} = ${titlemaster.netflixid} ;;
-    relationship: many_to_one
-  }
+# ##SDR 15/06/2020
+#   join: imdbinfo {
+#     sql_on: ${imdbinfo.netflixid} = ${titlemaster.netflixid} ;;
+#     relationship: many_to_one
+#   }
 
     ###############################################################################################################################
 
@@ -454,10 +317,7 @@ explore: dashboardexplore {
   type: inner
 }
 
-#   join: title_lookup_suggestions {
-#     sql_on: ${titlemaster.titleid} = ${title_lookup_suggestions.title_id} ;;
-#     relationship: many_to_one
-#   }
+
 
 #   join: ndt_avg_reach_dashboards {
 #     sql_on: ${ndt_reach_dashboards.diid}=${ndt_avg_reach_dashboards.diid}
@@ -479,13 +339,7 @@ explore: dashboardexplore {
 #   }
 #   #Commented out as this is no loger needed with new average calculations DS 19/08/20
 
-#   join: releasedate_dashboards {
-#     sql_on: ${titlemaster.netflixid} = ${releasedate_dashboards.netflixid}
-#             and ${paneldata.country}=${releasedate_dashboards.country}
-#             and ifnull(${episodes.episodenumber},1) = ifnull(${releasedate_dashboards.episodenumber},1)
-#             and ifnull(${episodes.seasonnumber},1) = ifnull(${releasedate_dashboards.seasonnumber},1) ;;
-#     relationship: many_to_one
-#   }
+
 
   join: releasedate {
     sql_on: ${titlemaster.netflixid} = ${releasedate.netflixid}
@@ -495,20 +349,20 @@ explore: dashboardexplore {
     relationship: many_to_one
   }
 
-  join: ndt_genretitlestreams_dashboards {
-    sql_on:
-            ${ndt_genretitlestreams_dashboards.netflixid} = ${genresflattened.netflixid}
-        and ${ndt_genretitlestreams_dashboards.genre}    = ${genresflattened.genre};;
-    relationship: many_to_one
-  }
+#   join: ndt_genretitlestreams_dashboards {
+#     sql_on:
+#             ${ndt_genretitlestreams_dashboards.netflixid} = ${genresflattened.netflixid}
+#         and ${ndt_genretitlestreams_dashboards.genre}    = ${genresflattened.genre};;
+#     relationship: many_to_one
+#   }
   ##DS 18/03/20 Added a replica of genretitlestreams table based off primary genre, rather than non-unique genre
 
-  join: titlegenres {
-    sql_on: ${contentmaster.netflixid} = ${titlegenres.netflixid} ;;
-    relationship: one_to_many
-##This is joined in to make genre filter work, any genre dashboards and looks should be made from didevexplore
-##alternatively we can join the genretitlestream NDT here as well and kill dashboard explore altogether, but will have to rebuild the dashboard then
-  }
+#   join: titlegenres {
+#     sql_on: ${contentmaster.netflixid} = ${titlegenres.netflixid} ;;
+#     relationship: one_to_many
+# ##This is joined in to make genre filter work, any genre dashboards and looks should be made from didevexplore
+# ##alternatively we can join the genretitlestream NDT here as well and kill dashboard explore altogether, but will have to rebuild the dashboard then
+#   }
 
 join: ndt_dynamic_targeting_dashboards {
   sql_on: ${householddemo.rid}=${ndt_dynamic_targeting_dashboards.rid}
@@ -521,8 +375,13 @@ join: ndt_dynamic_targeting_dashboards {
 
 ##SDR 11/08/2020
 
-  join: vw_netflixoriginalsexclusives {
-    sql_on: ${vw_netflixoriginalsexclusives.titleid} = ${titlemaster.titleid} ;;
+#   join: vw_netflixoriginalsexclusives {
+#     sql_on: ${vw_netflixoriginalsexclusives.titleid} = ${titlemaster.titleid} ;;
+#     relationship: one_to_one
+#   }
+
+  join: cliptrailerflag {
+    sql_on: ${paneldata.diid}=${cliptrailerflag.diid} ;;
     relationship: one_to_one
   }
 
@@ -532,40 +391,40 @@ join: ndt_dynamic_targeting_dashboards {
 ##TESTS - TF written added by SDR 11/08/2020
 #####################################################
 
-test: uk_2019_streams {
-  explore_source: ext_paneldata_fce{
-    column: total_reach { field: ext_paneldata_fce.reach}
-    filters: [ext_paneldata_fce.date_year: "2019"]
-    filters: [ext_paneldata_fce.countrynameformaps: "United Kingdom"]
-  }
-  assert: uk_2019_reach_expected_value {
-    expression: round(${ext_paneldata_fce.reach},0) = 13409 ;;
-  }
-}
-
-test: uk_2019_strangerthings_reach {
-  explore_source: ext_paneldata_fce{
-    column: total_reach { field: ext_paneldata_fce.reach}
-    filters: [ext_paneldata_fce.date_year: "2019"]
-    filters: [ext_paneldata_fce.countrynameformaps: "United Kingdom"]
-    filters: [contentmaster.title: "Stranger Things"]
-  }
-  assert: uk_2019_strangerthings_reach_expected_value {
-    expression: round(${ext_paneldata_fce.reach},0) = 8029 ;;
-  }
-}
-
-test: uk_2019_strangerthings_streams {
-  explore_source: ext_paneldata_fce{
-    column: total_streams { field: ext_paneldata_fce.streams}
-    filters: [ext_paneldata_fce.date_year: "2019"]
-    filters: [ext_paneldata_fce.countrynameformaps: "United Kingdom"]
-    filters: [contentmaster.title: "Stranger Things"]
-  }
-  assert: uk_2019_streams_expected_value {
-    expression: round(${ext_paneldata_fce.streams},0) = 102556 ;;
-  }
-}
+# test: uk_2019_streams {
+#   explore_source: ext_paneldata_fce{
+#     column: total_reach { field: ext_paneldata_fce.reach}
+#     filters: [ext_paneldata_fce.date_year: "2019"]
+#     filters: [ext_paneldata_fce.countrynameformaps: "United Kingdom"]
+#   }
+#   assert: uk_2019_reach_expected_value {
+#     expression: round(${ext_paneldata_fce.reach},0) = 13409 ;;
+#   }
+# }
+#
+# test: uk_2019_strangerthings_reach {
+#   explore_source: ext_paneldata_fce{
+#     column: total_reach { field: ext_paneldata_fce.reach}
+#     filters: [ext_paneldata_fce.date_year: "2019"]
+#     filters: [ext_paneldata_fce.countrynameformaps: "United Kingdom"]
+#     filters: [contentmaster.title: "Stranger Things"]
+#   }
+#   assert: uk_2019_strangerthings_reach_expected_value {
+#     expression: round(${ext_paneldata_fce.reach},0) = 8029 ;;
+#   }
+# }
+#
+# test: uk_2019_strangerthings_streams {
+#   explore_source: ext_paneldata_fce{
+#     column: total_streams { field: ext_paneldata_fce.streams}
+#     filters: [ext_paneldata_fce.date_year: "2019"]
+#     filters: [ext_paneldata_fce.countrynameformaps: "United Kingdom"]
+#     filters: [contentmaster.title: "Stranger Things"]
+#   }
+#   assert: uk_2019_streams_expected_value {
+#     expression: round(${ext_paneldata_fce.streams},0) = 102556 ;;
+#   }
+# }
 
 
 ####################################################################################################################################################

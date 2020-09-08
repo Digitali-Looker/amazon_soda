@@ -19,7 +19,7 @@ view: titlemaster {
   }
 
   dimension: netflixid {
-    type: number
+    type: string
     value_format_name: id
     sql: ${TABLE}."NETFLIXID" ;;
 #     hidden: yes
@@ -35,7 +35,7 @@ view: titlemaster {
   }
 
   dimension: episodeid {
-    type: number
+    type: string
     value_format_name: id
     # hidden: yes
     sql: ${TABLE}."EPISODEID" ;;

@@ -28,15 +28,15 @@ derived_table: {
     column: country               {field:  paneldata.country}
     column: rid_country           { field: paneldata.rid_country}
     column: thousandsweight       { field: internationalweights.thousandsweight}
-    column: genre                 {field: genresflattened.genre}
-    column: IsNetflixOriginalFullName {field:netflixoriginals.IsNetflixOriginalFullName}
-    column: firstcountry          {field: imdbinfo.firstcountry} #DS 29/06/20
-    column: language              {field: imdbinfo.language}  #DS 29/06/20
-    column: rating                {field: imdbinfo.rating}  #DS 29/06/20
-    column: runtime               {field: imdbinfo.runtime}  #DS 29/06/20
+#     column: genre                 {field: genresflattened.genre}
+#     column: IsNetflixOriginalFullName {field:netflixoriginals.IsNetflixOriginalFullName}
+#     column: firstcountry          {field: imdbinfo.firstcountry} #DS 29/06/20
+#     column: language              {field: imdbinfo.language}  #DS 29/06/20
+#     column: rating                {field: imdbinfo.rating}  #DS 29/06/20
+#     column: runtime               {field: imdbinfo.runtime}  #DS 29/06/20
     column: released              {field: contentmaster.released}  #DS 29/06/20
-    column: seasonlevelclassification  {field: vw_netflixoriginalsexclusives.seasonlevelclassification}  #SDR 11/08/2020
-    column: latestclassification  {field: vw_netflixoriginalsexclusives.latestclassification}  #SDR 19/08/2020
+#     column: seasonlevelclassification  {field: vw_netflixoriginalsexclusives.seasonlevelclassification}  #SDR 11/08/2020
+#     column: latestclassification  {field: vw_netflixoriginalsexclusives.latestclassification}  #SDR 19/08/2020
     derived_column: PK {
       sql: ROW_NUMBER () OVER (ORDER BY NULL) ;;
     }
@@ -55,9 +55,6 @@ derived_table: {
                                      {%else%} 1
                                      {% endif %},
 
-                                     {%if genresflattened.genre._is_selected %} genre
-                                     {%else%} 1
-                                     {% endif %},
 
                                      {%if episodes.seasonnumber_IFNULL._is_selected
                                       or paneldata.content_granularity._parameter_value == 'Season'
@@ -90,39 +87,10 @@ derived_table: {
                                      {%else%} 1
                                      {% endif %},
 
-                                     {%if netflixoriginals.IsNetflixOriginalFullName._is_selected %} IsNetflixOriginalFullName
-                                     {%else%} 1
-                                     {% endif %},
-
-                                     {%if imdbinfo.firstcountry._is_selected %} firstcountry
-                                     {%else%} 1
-                                     {% endif %},
-
-                                     {%if imdbinfo.language._is_selected %} language
-                                     {%else%} 1
-                                     {% endif %},
-
-                                     {%if imdbinfo.rating._is_selected %} rating
-                                     {%else%} 1
-                                     {% endif %},
-
-                                     {%if imdbinfo.runtime._is_selected %} runtime
-                                     {%else%} 1
-                                     {% endif %},
-
                                      {%if contentmaster.released._is_selected %} released
                                      {%else%} 1
                                      {% endif %},
 
---SDR 11/08/2020 and 19/08/2020---------
-                 {%if vw_netflixoriginalsexclusives.latestclassification._is_selected %} latestclassification
-                 {%else%} 1
-                 {% endif %},
-
-                 {%if vw_netflixoriginalsexclusives.seasonlevelclassification._is_selected %} seasonlevelclassification
-                 {%else%} 1
-                 {% endif %},
- ---------------------------------------
                  {%if paneldata.countrynameformaps._is_selected %} country
                  {%else%} 1
                  {% endif %}
@@ -141,10 +109,6 @@ derived_table: {
                                                  {% endif %},
 
                                      {%if titlemaster.videotype._is_selected %} videotype
-                                     {%else%} 1
-                                     {% endif %},
-
-                                     {%if genresflattened.genre._is_selected %} genre
                                      {%else%} 1
                                      {% endif %},
 
@@ -193,38 +157,10 @@ derived_table: {
                                                  {%else%} 1
                                                  {% endif %},
 
-                                                 {%if netflixoriginals.IsNetflixOriginalFullName._is_selected %} IsNetflixOriginalFullName
-                                                 {%else%} 1
-                                                 {% endif %},
-
-                                                 {%if imdbinfo.firstcountry._is_selected %} firstcountry
-                                                 {%else%} 1
-                                                 {% endif %},
-
-                                                 {%if imdbinfo.language._is_selected %} language
-                                                 {%else%} 1
-                                                 {% endif %},
-
-                                                 {%if imdbinfo.rating._is_selected %} rating
-                                                 {%else%} 1
-                                                 {% endif %},
-
-                                                 {%if imdbinfo.runtime._is_selected %} runtime
-                                                 {%else%} 1
-                                                 {% endif %},
-
                                                  {%if contentmaster.released._is_selected %} released
                                                  {%else%} 1
                                                  {% endif %},
---SDR 11/08/2020 and 19/08/2020---------
-                 {%if vw_netflixoriginalsexclusives.latestclassification._is_selected %} latestclassification
-                 {%else%} 1
-                 {% endif %},
 
-                 {%if vw_netflixoriginalsexclusives.seasonlevelclassification._is_selected %} seasonlevelclassification
-                 {%else%} 1
-                 {% endif %},
- ---------------------------------------
                  {%if paneldata.countrynameformaps._is_selected %} country
                  {%else%} 1
                  {% endif %}
@@ -501,3 +437,73 @@ dimension: rid_country {
 #             from_field: ndt_genretitlestreams_dashboards.rowno
 #             to_field: ndt_genretitlestreams_dashboards.rowno
 #           }
+
+
+
+
+#                                      {%if imdbinfo.firstcountry._is_selected %} firstcountry
+#                                      {%else%} 1
+#                                      {% endif %},
+#
+#                                      {%if imdbinfo.language._is_selected %} language
+#                                      {%else%} 1
+#                                      {% endif %},
+#
+#                                      {%if imdbinfo.rating._is_selected %} rating
+#                                      {%else%} 1
+#                                      {% endif %},
+#
+#                                      {%if imdbinfo.runtime._is_selected %} runtime
+#                                      {%else%} 1
+#                                      {% endif %},
+#
+#                                      {%if netflixoriginals.IsNetflixOriginalFullName._is_selected %} IsNetflixOriginalFullName
+#                                      {%else%} 1
+#                                      {% endif %},
+
+#                                      {%if genresflattened.genre._is_selected %} genre
+#                                      {%else%} 1
+#                                      {% endif %},
+#                                     --SDR 11/08/2020 and 19/08/2020---------
+#                  {%if vw_netflixoriginalsexclusives.latestclassification._is_selected %} latestclassification
+#                  {%else%} 1
+#                  {% endif %},
+#
+#                  {%if vw_netflixoriginalsexclusives.seasonlevelclassification._is_selected %} seasonlevelclassification
+#                  {%else%} 1
+#                  {% endif %},
+#  ---------------------------------------
+#
+#
+#                                                  {%if imdbinfo.firstcountry._is_selected %} firstcountry
+#                                                  {%else%} 1
+#                                                  {% endif %},
+#
+#                                                  {%if imdbinfo.language._is_selected %} language
+#                                                  {%else%} 1
+#                                                  {% endif %},
+#
+#                                                  {%if imdbinfo.rating._is_selected %} rating
+#                                                  {%else%} 1
+#                                                  {% endif %},
+#
+#                                                  {%if imdbinfo.runtime._is_selected %} runtime
+#                                                  {%else%} 1
+#                                                  {% endif %},
+#
+#                                                  {%if netflixoriginals.IsNetflixOriginalFullName._is_selected %} IsNetflixOriginalFullName
+#                                                  {%else%} 1
+#                                                  {% endif %},
+
+#                                      {%if genresflattened.genre._is_selected %} genre
+#                                      {%else%} 1
+#                                      {% endif %},
+#                                     --SDR 11/08/2020 and 19/08/2020---------
+#                  {%if vw_netflixoriginalsexclusives.latestclassification._is_selected %} latestclassification
+#                  {%else%} 1
+#                  {% endif %},
+#
+#                  {%if vw_netflixoriginalsexclusives.seasonlevelclassification._is_selected %} seasonlevelclassification
+#                  {%else%} 1
+#                  {% endif %},
+#  ---------------------------------------
