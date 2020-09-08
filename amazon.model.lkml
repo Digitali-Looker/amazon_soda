@@ -3,7 +3,7 @@
 ##TF
 #############################
 
-connection: "netflix_int_snow"
+connection: "amazon_soda"
 
 include: "/*/*"
 include: "/*/*/*"
@@ -132,7 +132,7 @@ explore: ext_paneldata_fce {
 
   fields: [ALL_FIELDS*, -title_lookup.titleonly, -title_lookup.titleseason, -title_lookup.titleseasonepisode]
 
-  label: "Netflix International Client Explore"
+  label: "Amazon Client Explore"
 
 
   always_filter: {
