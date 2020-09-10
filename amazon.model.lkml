@@ -48,7 +48,6 @@ explore: ext_paneldata_fce {
 
   sql_always_where: ${titlemaster.netflixid} is not null
   and ( ${ext_paneldata_fce.titleid} is not null)
-  and ${cliptrailerflag.clipflag} = 0 and ${cliptrailerflag.trailerflag}= 0
   and ${country} in ( {{ _user_attributes['netflix_v2_country_access'] }} )
   and ${date_raw} >= '{{ _user_attributes['netflix_v2_start'] }}'
   and ${date_raw} <= '{{ _user_attributes['netflix_v2_end'] }}'
@@ -182,10 +181,7 @@ explore: ext_paneldata_fce {
 #   relationship: one_to_one
 # }
 
-join: cliptrailerflag {
-  sql_on: ${ext_paneldata_fce.diid}=${cliptrailerflag.diid} ;;
-  relationship: one_to_one
-}
+
 
 
 }
@@ -219,7 +215,6 @@ explore: dashboardexplore {
   ## Adding base explore joins
 
   sql_always_where: ${titlemaster.netflixid} is not null and ( ${paneldata.titleid} is not null)
-                    and ${cliptrailerflag.clipflag} = 0 and ${cliptrailerflag.trailerflag}= 0
                     and ${country} in ( {{ _user_attributes['netflix_v2_country_access'] }} )
                     and ${date_raw} >= '{{ _user_attributes['netflix_v2_start'] }}'
                     and ${date_raw} <= '{{ _user_attributes['netflix_v2_end'] }}'
@@ -380,10 +375,7 @@ join: ndt_dynamic_targeting_dashboards {
 #     relationship: one_to_one
 #   }
 
-  join: cliptrailerflag {
-    sql_on: ${paneldata.diid}=${cliptrailerflag.diid} ;;
-    relationship: one_to_one
-  }
+
 
 }
 
