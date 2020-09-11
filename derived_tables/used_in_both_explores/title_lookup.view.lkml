@@ -18,7 +18,7 @@ view: title_lookup {
                  WHEN e.Netflixid IS NULL THEN
                      cm.Title
                  ELSE
-                     CONCAT(cm.Title, ' - S', trim(to_char(e.SeasonNumber,'00')))
+                     CONCAT(cm.Title, ' - S', trim(to_char(ifnull(e.SeasonNumber,1),'00')))
              END AS TitleSeason,
              CASE
                  WHEN e.Netflixid IS NULL THEN
@@ -27,9 +27,9 @@ view: title_lookup {
                      CONCAT(
                                cm.Title,
                                ' - S',
-                               trim(to_char(e.SeasonNumber,'00')),
+                               trim(to_char(ifnull(e.SeasonNumber,1),'00')),
                                ' E',
-                              trim(To_char(e.EpisodeNumber,'9900'))
+                              trim(To_char(ifnull(e.EpisodeNumber,1),'9900'))
                            )
              END AS TitleSeasonEpisode,
             ----------Added part to replace numberofepisodes PDT
@@ -40,9 +40,9 @@ view: title_lookup {
                                        CONCAT(
                                                  cm.Title,
                                                  ' - S',
-                                                 trim(to_char(e.SeasonNumber,'00')),
+                                                 trim(to_char(ifnull(e.SeasonNumber,1),'00')),
                                                  ' E',
-                                                trim(To_char(e.EpisodeNumber,'9900'))
+                                                trim(To_char(ifnull(e.EpisodeNumber,1),'9900'))
                                              )
                                   END) over (partition by cm.netflixid) counttitlelevel,
               count ( distinct CASE
@@ -52,11 +52,11 @@ view: title_lookup {
                                        CONCAT(
                                                  cm.Title,
                                                  ' - S',
-                                                 trim(to_char(e.SeasonNumber,'00')),
+                                                 trim(to_char(ifnull(e.SeasonNumber,1),'00')),
                                                  ' E',
-                                                trim(To_char(e.EpisodeNumber,'9900'))
+                                                trim(To_char(ifnull(e.EpisodeNumber,1),'9900'))
                                              )
-                                  END) over (partition by cm.netflixid, e.seasonnumber) countseasonlevel,
+                                  END) over (partition by cm.netflixid, ifnull(e.seasonnumber,1)) countseasonlevel,
               count ( distinct CASE
                                    WHEN e.Netflixid IS NULL THEN
                                        cm.Title
@@ -64,11 +64,11 @@ view: title_lookup {
                                        CONCAT(
                                                  cm.Title,
                                                  ' - S',
-                                                 trim(to_char(e.SeasonNumber,'00')),
+                                                 trim(to_char(ifnull(e.SeasonNumber,1),'00')),
                                                  ' E',
-                                                trim(To_char(e.EpisodeNumber,'9900'))
+                                                trim(To_char(ifnull(e.EpisodeNumber,1),'9900'))
                                              )
-                                  END) over (partition by cm.netflixid, e.seasonnumber, e.episodenumber) countepisodelevel
+                                  END) over (partition by cm.netflixid, ifnull(e.seasonnumber,1), ifnull(e.episodenumber,1)) countepisodelevel
       --INTO core.TitleLookUp
       FROM core.TitleMaster tm
           LEFT JOIN core.ContentMaster cm
