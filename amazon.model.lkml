@@ -19,7 +19,7 @@ persist_with: netflix_int_default_datagroup
 # explore: nav_bar {}   --SDR 18/03/2020
 
 explore: navigation_bar {
-  hidden: yes
+#   hidden: yes   ##SDR 15/09/2020 unhidden temporarily while building the dashboard :D
 } ##SDR 18/03/2020
 
 
@@ -195,7 +195,7 @@ explore: ext_paneldata_fce {
 ####################################################################################################################################################
 explore: dashboardexplore {
 
-  hidden: yes
+#   hidden: yes   --SDR 15/09/2020 - temp unhiding in dashboard creation
 
   view_name:  paneldata
   #extends: [base_paneldata]
