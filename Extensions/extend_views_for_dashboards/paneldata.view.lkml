@@ -383,7 +383,7 @@ view: paneldata {
     link: {
       label: "Explore Title..."
       url: "https://digitali.eu.looker.com/dashboards/
-{% if titlemaster.videotype._value == 'Series' %}186{% else %}185{% endif %}
+{% if titlemaster.videotype._value == 'Series' %}203{% else %}204{% endif %}
 ?Title={{contentmaster.title._value}}&Country={{ _filters['paneldata.countrynameformaps'] }}"
     }
 
