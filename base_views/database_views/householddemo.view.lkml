@@ -126,6 +126,7 @@ view_label: "Demographic Information"
     sql: ${TABLE}."HASPRIME" =1;;
     label: "Has Amazon Prime"
     group_label: "Media Platforms"
+    hidden: yes
   }
 
   dimension: hassky {
