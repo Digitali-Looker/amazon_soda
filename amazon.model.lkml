@@ -19,7 +19,7 @@ persist_with: netflix_int_default_datagroup
 # explore: nav_bar {}   --SDR 18/03/2020
 
 explore: navigation_bar {
-#   hidden: yes   ##SDR 15/09/2020 unhidden temporarily while building the dashboard :D
+   hidden: yes   ##SDR 15/09/2020 unhidden temporarily while building the dashboard :D
 } ##SDR 18/03/2020
 
 
