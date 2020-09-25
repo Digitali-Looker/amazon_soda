@@ -195,7 +195,7 @@ explore: ext_paneldata_fce {
 ####################################################################################################################################################
 explore: dashboardexplore {
 
-#   hidden: yes   --SDR 15/09/2020 - temp unhiding in dashboard creation
+   hidden: yes #SDR 15/09/2020 - temp unhiding in dashboard creation
 
   view_name:  paneldata
   #extends: [base_paneldata]

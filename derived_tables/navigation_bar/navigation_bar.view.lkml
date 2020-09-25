@@ -29,14 +29,14 @@ view: navigation_bar {
       label: "4. Movie Explorer"
       url:"/dashboards/204"
     }
-    link: {
-      label: "5. Amazon/ Netflix Comparison"    ##SDR 24/09/2020
-      url:"/dashboards/206"
-    }
-    link: {
-      label: "6. Amazon/ Netflix Content Crossover" ##SDR 24/09/2020
-      url:"/dashboards/207"
-    }
+#     link: {
+#       label: "5. Amazon/ Netflix Comparison"    ##SDR 24/09/2020
+#       url:"/dashboards/206"
+#     }
+#     link: {
+#       label: "6. Amazon/ Netflix Content Crossover" ##SDR 24/09/2020
+#       url:"/dashboards/207"
+#     }
   #     link: {
 #       label: "Episode Explorer"
 #       url:"/dashboards/187"
