@@ -24,7 +24,7 @@ view: titlemaster {
     sql: ${TABLE}."NETFLIXID" ;;
 #     hidden: yes
     group_label: "Content"
-    label: "Netflix ID"
+    label: "IMDB ID"
   }
   #########################################################################
 
