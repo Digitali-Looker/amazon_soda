@@ -104,10 +104,10 @@ explore: ext_paneldata_fce {
   }
 
 
-#     join:  genresflattened {
-#       sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
-#       relationship: many_to_one
-#     }
+    join:  genresflattened {
+      sql_on: ${genresflattened.netflixid} = ${titlemaster.netflixid} ;;
+      relationship: many_to_one
+    }
 
 #     join: netflixoriginals {
 #       sql_on: ${netflixoriginals.netflixid} = ${titlemaster.netflixid} ;;
