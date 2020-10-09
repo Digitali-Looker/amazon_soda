@@ -68,7 +68,7 @@ SELECT NETFLIXID, GENRE FROM one WHERE rowno = 1
 
   #######################################################
   dimension: netflixid {
-    type: number
+    type: string
     sql: ${TABLE}."NETFLIXID" ;;
     hidden: yes
   }

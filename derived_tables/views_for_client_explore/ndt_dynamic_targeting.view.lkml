@@ -95,10 +95,10 @@ view: ndt_dynamic_targeting {
 #         from_field: ndt_dynamic_targeting.IsNetflixOriginalFullNameFilter
 #       }
 
-#       bind_filters: {
-#         to_field: genresflattened.genre
-#         from_field: ndt_dynamic_targeting.genreFilter
-#       }
+      bind_filters: {
+        to_field: genresflattened.genre
+        from_field: ndt_dynamic_targeting.genreFilter
+      }
 
       bind_filters: {
         to_field: ext_paneldata_fce.dayssincefirstviewed
@@ -171,12 +171,12 @@ view: ndt_dynamic_targeting {
 #     hidden: yes ##SDR following MR request 19/08/2020
 #   }
 
-#   filter: genreFilter {
-#     type: string
-#     view_label: "Dynamic Targeting Filters"
-#     label: "Primary Genre"
-#     suggest_dimension: genresflattened.genre
-#   }
+  filter: genreFilter {
+    type: string
+    view_label: "Dynamic Targeting Filters"
+    label: "Primary Genre"
+    suggest_dimension: genresflattened.genre
+  }
 
   filter: dayssincefirstviewedfilter {
     type: number

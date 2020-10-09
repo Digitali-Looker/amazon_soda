@@ -35,7 +35,7 @@ view: NDT_reach {
       column: country               { field: ext_paneldata_fce.country}
       column: rid_country           { field: ext_paneldata_fce.rid_country}
       column: thousandsweight       { field: internationalweights.thousandsweight}
-#       column: genre                 { field: genresflattened.genre}
+      column: genre                 { field: genresflattened.genre}
 #       column: IsNetflixOriginalFullName {field:netflixoriginals.IsNetflixOriginalFullName}
 #       column: firstcountry          {field: imdbinfo.firstcountry} #DS 29/06/20
 #       column: language              {field: imdbinfo.language}  #DS 29/06/20
@@ -88,6 +88,11 @@ view: NDT_reach {
 
 
                  {%if contentmaster.released._is_selected %} released
+                 {%else%} 1
+                 {% endif %},
+
+        ----DS 09/10/20
+                 {%if genresflattened.genre._is_selected %} genre
                  {%else%} 1
                  {% endif %},
 
@@ -162,6 +167,11 @@ view: NDT_reach {
                  {% endif %},
 
                  {%if contentmaster.released._is_selected %} released
+                 {%else%} 1
+                 {% endif %},
+
+              ----DS 09/10/20
+                 {%if genresflattened.genre._is_selected %} genre
                  {%else%} 1
                  {% endif %},
 
@@ -323,9 +333,7 @@ view: NDT_reach {
 #                  {%if netflixoriginals.IsNetflixOriginalFullName._is_selected %} IsNetflixOriginalFullName
 #                  {%else%} 1
 #                  {% endif %},
-#                 {%if genresflattened.genre._is_selected %} genre
-#                 {%else%} 1
-#                 {% endif %},
+
 #                 --SDR 11/08/2020 and 19/08/2020---------
 #                  {%if vw_netflixoriginalsexclusives.latestclassification._is_selected %} latestclassification
 #                  {%else%} 1
