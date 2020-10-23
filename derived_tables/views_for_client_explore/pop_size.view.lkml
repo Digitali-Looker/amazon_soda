@@ -91,9 +91,9 @@ view: pop_size {
               {% condition householddemo.haskids %} hd.HasKids = 1 {% endcondition %}
               and
                   {% if ext_paneldata_fce.date_date._is_filtered %}
-                   (date_from_parts(fw.panelyear, fw.panelquarter*3-2,1) >= trunc({% date_start ext_paneldata_fce.date_date %},'quarter')
+                   (date_from_parts(fw.panelyear, fw.panelquarter*3-2,1) >= trunc(ifnull({% date_start ext_paneldata_fce.date_date %},'{{ _user_attributes['netflix_v2_start'] }}'),'quarter')
                   and
-                  date_from_parts(fw.panelyear, fw.panelquarter*3-2,1) <= trunc(dateadd(day,-1,{% date_end ext_paneldata_fce.date_date %}), 'quarter'))
+                  date_from_parts(fw.panelyear, fw.panelquarter*3-2,1) <= trunc(dateadd(day,-1,ifnull({% date_end ext_paneldata_fce.date_date %},'{{ _user_attributes['netflix_v2_end'] }}')), 'quarter'))
                   --This filter allows to only select for calculation the quarters within which dates selected by the user fall
                   {% else %}
                   (date_from_parts(fw.panelyear, fw.panelquarter*3-2,1) >= trunc(to_date('{{ _user_attributes['netflix_v2_start'] }}'),'quarter')
