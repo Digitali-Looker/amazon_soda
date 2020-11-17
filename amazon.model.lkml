@@ -51,6 +51,7 @@ explore: ext_paneldata_fce {
   and ${country} in ( {{ _user_attributes['netflix_v2_country_access'] }} )
   and ${date_raw} >= '{{ _user_attributes['netflix_v2_start'] }}'
   and ${date_raw} <= '{{ _user_attributes['netflix_v2_end'] }}'
+  and ${ext_paneldata_fce.istestline} is  null
   and ${contentmaster.title} is not null
       --and ${householddemo.demoid} IS NOT NULL
       ;;    ##SDR 02032020 -to get around
@@ -218,6 +219,7 @@ explore: dashboardexplore {
                     and ${country} in ( {{ _user_attributes['netflix_v2_country_access'] }} )
                     and ${date_raw} >= '{{ _user_attributes['netflix_v2_start'] }}'
                     and ${date_raw} <= '{{ _user_attributes['netflix_v2_end'] }}'
+                    and ${paneldata.istestline} is  null
                     and ${contentmaster.title} is not null
   ;;
   #sql_always_where: ${titlemaster.netflixid} is not null and ${titlemaster.videotype} is not null;;
