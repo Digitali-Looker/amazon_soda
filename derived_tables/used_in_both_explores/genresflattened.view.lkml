@@ -48,11 +48,11 @@ SELECT NETFLIXID, GENRE FROM one WHERE rowno = 1
 
     dimension: allgenreclassifications {
     type: string
-    sql: ${TABLE}."ALLGENRESSTUFFED" ;;
+    sql: lower(trim(${TABLE}."ALLGENRESSTUFFED")) ;;
     view_label: "Content Selection"
     group_label: "Genre"
     label: "All Genres Associated with Content"
-    can_filter: no
+    can_filter: yes
   }
 
 
