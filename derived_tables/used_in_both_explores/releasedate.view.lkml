@@ -31,10 +31,8 @@ view: releasedate {
                        ON e.netflixid=tm.netflixid and ifnull(e.EpisodeID,'1') = ifnull(tm.EpisodeID,'1')
                                 where pdq.diid is not null and tm.netflixid is not NULL
                                 --AND tm.NETFLIXID =80148535 AND pdq.country='UK'
-
                 ) b --order by a.netflixid, a.seasonnumber, a.episodenumber,a.date
                 --GROUP BY 1,2,3,4
-
        ) c
   where c.checkthree = 0
 

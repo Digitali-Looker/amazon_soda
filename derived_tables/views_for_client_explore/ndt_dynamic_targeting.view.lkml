@@ -10,39 +10,31 @@ view: ndt_dynamic_targeting {
       #DS 28/05/20 columns below added for segmentation
       column: streams {field:ext_paneldata_fce.streams}
       column: average_weight { field: ext_paneldata_fce.average_weight }
-
       derived_column: total_thou {
         sql:  sum (streams) over (partition by {% if ext_paneldata_fce.countrynameformaps_is_selected %} country {% else %} 1 {% endif %});;
         }
       ##This condition here is so that when 2 or more countries are filtered, we can look at viewers of smth across countries as a single subset (total will also be across countries)
       ##This should tie in nicely with pop size calculation that only partitions by country if it is selected in the query
       ## if only one country is filtered then the whole list will be limited to 1 country, so partitioning is mot needed
-
 #       derived_column: percent_viewing_ind_row {
 #         sql: (streams/total_thou)*100 ;;
 #       }
 #
-
       derived_column: running_streams_intermediate {
         sql: sum (streams) over (
                   partition by {% if ext_paneldata_fce.countrynameformaps_is_selected %} country {% else %} 1 {% endif %}
                   order by {% if ext_paneldata_fce.countrynameformaps_is_selected %} country {% else %} 1 {% endif %}, streams, average_weight
                   );;
       }
-
-
       derived_column: percent_viewing_running {
         sql: (running_streams_intermediate/total_thou)*100 ;;
       }
-
-
       derived_column: total_rows {
         sql: count(1) OVER (partition by {% if ext_paneldata_fce.countrynameformaps_is_selected %} country {% else %} 1 {% endif %}) ;;
       }
       ##This condition here is so that when 2 or more countries are filtered, we can look at viewers of smth across countries as a single subset (total will also be across countries)
       ##This should tie in nicely with pop size calculation that only partitions by country if it is selected in the query
       ## if only one country is filtered then the whole list will be limited to 1 country, so partitioning is mot needed
-
       derived_column: percent_sample_running {
         sql: ROW_NUMBER () OVER (
         partition by {% if ext_paneldata_fce.countrynameformaps_is_selected %} country {% else %} 1 {% endif %}
@@ -50,75 +42,54 @@ view: ndt_dynamic_targeting {
         )/total_rows*100 ;;
       }
       #Running % is from top to bottom viewing, so top 30% will be heavy
-
-
       derived_column: sample_threshold_flag {
         sql: case when {% condition ndt_dynamic_targeting.custom_threshold_sample %} percent_sample_running {% endcondition %} then 1 else 0 end
         ;;
-
       }
-
       derived_column: viewing_threshold_flag {
         sql: case when {% condition ndt_dynamic_targeting.custom_threshold_viewing %} percent_viewing_running {% endcondition %} then 1 else 0 end
           ;;
-
       }
-
-
-
       #-------------------------------------------------------------------------------------------------------
-
       bind_filters: {
         to_field: ext_paneldata_fce.countrynameformaps
         from_field: ext_paneldata_fce.countrynameformaps
       }
-
       bind_filters: {
         to_field: contentmaster.title
         from_field: ndt_dynamic_targeting.titlefilter
       }
-
       bind_filters: {
         to_field: episodes.seasonnumber_IFNULL
         from_field: ndt_dynamic_targeting.seasonnumber_IFNULLFilter
       }
-
 #         bind_filters: {
 #           to_field: episodes.episodenumber_IFNULL
 #           from_field: ndt_dynamic_targeting_dashboards.episodenumber_IFNULLFilter
 #         }
 # We can add episode selection, But I don't want to add the title&season&episode combo now, because it would become too confusing
 #for now let's limit selection to (title and/or season) OR title&season combo
-
 #       bind_filters: {
 #         to_field: netflixoriginals.IsNetflixOriginalFullName
 #         from_field: ndt_dynamic_targeting.IsNetflixOriginalFullNameFilter
 #       }
-
       bind_filters: {
         to_field: genresflattened.genre
         from_field: ndt_dynamic_targeting.genreFilter
       }
-
       bind_filters: {
         to_field: ext_paneldata_fce.dayssincefirstviewed
         from_field: ndt_dynamic_targeting.dayssincefirstviewedfilter
       }
-
       bind_filters: {
         to_field: title_lookup.titleseason_fce
         from_field: ndt_dynamic_targeting.titleseasonfilter
       }
-
-
       bind_filters: {
         to_field: ext_paneldata_fce.date_date
         from_field: ndt_dynamic_targeting.datefilter
       }
-
-
     }
-
   }
   dimension: rid {
     type: number
