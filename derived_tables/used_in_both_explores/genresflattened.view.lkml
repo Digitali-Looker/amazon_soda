@@ -38,7 +38,6 @@ SELECT NETFLIXID, GENRE FROM one WHERE rowno = 1
       select a.NETFLIXID, a.GENRE ,
       LEFT(LIST,(LENGTH(b.LIST)-2)) AS ALLGENRESSTUFFED from GenrePopularity a
       LEFT JOIN prep_STUFF_cte b ON a.NETFLIXID  = b.NetflixID
-
       --, count desc
       --ORDER BY prep2_CTE.TotalFlags asc;
         ;;

@@ -42,7 +42,6 @@ derived_table: {
     }
     derived_column: rowno {
       sql: ROW_NUMBER () OVER (PARTITION BY rid_country,
-
                                      {%if titlemaster.netflixid._is_selected or contentmaster.title._is_selected
                                       or paneldata.content_granularity._parameter_value == 'Title'
                                       or paneldata.content_granularity._parameter_value == 'Season'
@@ -50,69 +49,53 @@ derived_table: {
                                       %} netflixid
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if titlemaster.videotype._is_selected %} videotype
                                      {%else%} 1
                                      {% endif %},
-
-
                                      {%if episodes.seasonnumber_IFNULL._is_selected
                                       or paneldata.content_granularity._parameter_value == 'Season'
                                       or paneldata.content_granularity._parameter_value == 'Episode'
                                       %} seasonnumber_IFNULL
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if episodes.episodenumber_IFNULL._is_selected or paneldata.content_granularity._parameter_value == 'Episode'%} episodenumber_IFNULL
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if paneldata.date_date._is_selected or paneldata.date_granularity._parameter_value == 'Date'%} date_raw
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if paneldata.date_week._is_selected or paneldata.date_granularity._parameter_value == 'Week'%} date_trunc(week,date_raw)
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if paneldata.date_month._is_selected or paneldata.date_granularity._parameter_value == 'Month'%} date_trunc(month,date_raw)
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if paneldata.date_quarter._is_selected or paneldata.date_granularity._parameter_value == 'Quarter'%} date_trunc(quarter,date_raw)
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if paneldata.date_year._is_selected or paneldata.date_granularity._parameter_value == 'Year'%} date_part(year,date_raw)
                                      {%else%} 1
                                      {% endif %},
-
                                      {%if contentmaster.released._is_selected %} released
                                      {%else%} 1
                                      {% endif %},
-
                  {%if paneldata.countrynameformaps._is_selected %} country
                  {%else%} 1
                  {% endif %}
-
                                     ORDER BY rid_country, date_raw desc) ;;
     }
 
     derived_column: avg_rowno {
       sql: ROW_NUMBER () OVER (PARTITION BY rid_country,
-
                                                  {%if paneldata.avg_reach_content_granularity._is_filtered
                                                   or titlemaster.netflixid._is_selected or contentmaster.title._is_selected
                                                   or paneldata.content_granularity._is_filtered
                                                   %} netflixid
                                                  {%else%} 1
                                                  {% endif %},
-
                                      {%if titlemaster.videotype._is_selected %} videotype
                                      {%else%} 1
                                      {% endif %},
-
-
                                                  {%if paneldata.avg_reach_content_granularity._parameter_value == 'Season'
                                                   or paneldata.avg_reach_content_granularity._parameter_value == 'Episode'
                                                   or episodes.seasonnumber_IFNULL._is_selected
@@ -120,51 +103,42 @@ derived_table: {
                                                   %} seasonnumber_IFNULL
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if paneldata.avg_reach_content_granularity._parameter_value == 'Episode'
                                                   or episodes.episodenumber_IFNULL._is_selected or paneldata.content_granularity._parameter_value == 'Episode'
                                                   %} episodenumber_IFNULL
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if paneldata.avg_reach_date_granularity._parameter_value == 'Daily'
                                                    or paneldata.date_date._is_selected or paneldata.date_granularity._parameter_value == 'Date'
                                                   %} date_raw
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if paneldata.avg_reach_date_granularity._parameter_value == 'Weekly'
                                                    or paneldata.date_week._is_selected or paneldata.date_granularity._parameter_value == 'Week'
                                                   %} date_trunc(week,date_raw)
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if paneldata.avg_reach_date_granularity._parameter_value == 'Monthly'
                                                   or paneldata.date_month._is_selected or paneldata.date_granularity._parameter_value == 'Month'
                                                   %} date_trunc(month,date_raw)
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if paneldata.avg_reach_date_granularity._parameter_value == 'Quarterly'
                                                   or paneldata.date_quarter._is_selected or paneldata.date_granularity._parameter_value == 'Quarter'
                                                   %} date_trunc(quarter,date_raw)
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if paneldata.avg_reach_date_granularity._parameter_value == 'Yearly'
                                                   or paneldata.date_year._is_selected or paneldata.date_granularity._parameter_value == 'Year'
                                                   %} date_part(year,date_raw)
                                                  {%else%} 1
                                                  {% endif %},
-
                                                  {%if contentmaster.released._is_selected %} released
                                                  {%else%} 1
                                                  {% endif %},
-
                  {%if paneldata.countrynameformaps._is_selected %} country
                  {%else%} 1
                  {% endif %}
-
                                                 ORDER BY rid_country, date_raw desc) ;;
     }
 

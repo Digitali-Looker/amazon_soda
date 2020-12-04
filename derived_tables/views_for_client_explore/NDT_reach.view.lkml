@@ -53,56 +53,41 @@ view: NDT_reach {
                  {%if titlemaster.netflixid._is_selected or contentmaster.title._is_selected or title_lookup.titleseason_fce._is_selected %} netflixid
                  {%else%} 1
                  {% endif %},
-
                  {%if titlemaster.videotype._is_selected %} videotype
                  {%else%} 1
                  {% endif %},
-
                  {%if episodes.seasonnumber_IFNULL._is_selected or title_lookup.titleseason_fce._is_selected %} seasonnumber_IFNULL
                  {%else%} 1
                  {% endif %},
-
                  {%if episodes.episodenumber_IFNULL._is_selected %} episodenumber_IFNULL
                  {%else%} 1
                  {% endif %},
-
                  {%if ext_paneldata_fce.date_date._is_selected %} date_raw
                  {%else%} 1
                  {% endif %},
-
                  {%if ext_paneldata_fce.date_week._is_selected %} date_trunc(week,date_raw)
                  {%else%} 1
                  {% endif %},
-
                  {%if ext_paneldata_fce.date_month._is_selected %} date_trunc(month,date_raw)
                  {%else%} 1
                  {% endif %},
-
                  {%if ext_paneldata_fce.date_quarter._is_selected %} date_trunc(quarter,date_raw)
                  {%else%} 1
                  {% endif %},
-
                  {%if ext_paneldata_fce.date_year._is_selected %} date_part(year,date_raw)
                  {%else%} 1
                  {% endif %},
-
-
                  {%if contentmaster.released._is_selected %} released
                  {%else%} 1
                  {% endif %},
-
         ----DS 09/10/20
                  {%if genresflattened.genre._is_selected %} genre
                  {%else%} 1
                  {% endif %},
-
  ---------------------------------------
                  {%if ext_paneldata_fce.countrynameformaps._is_selected %} country
                  {%else%} 1
                  {% endif %}
-
-
-
                 ORDER BY rid_country,  date_raw desc, profileid) ;;    ##SDR 18/06/2020 added in to  be able to order by ProfileID too-- note that profileID needs to go at the end so as not to disturb the latest date selected!!
                         }
 #                   {%if ext_paneldata_fce.netflixprofileid._is_selected %} netflixprofileid

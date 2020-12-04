@@ -6,14 +6,11 @@ view: pop_size_dashboards {
       a.country,
       a.panelyear,
       a.panelquarter,
-
-
 --------Hidden parts in relation to householddemo columns is an attempt to allow for a breakdown by some demo parameters, didn't work - fanout, return to it later
       --{% if householddemo.sec._is_selected %} a.sec {% else %} 1 {% endif %},
       --{% if householddemo.kidsgroup._is_selected %} a.kidsgroup {% else %} 2 {% endif %},
       --{% if householddemo.secgroup._is_selected %} a.secgroup {% else %} 3 {% endif %},
       --{% if householddemo.housholdplatform._is_selected %} a.housholdplatform {% else %} 4 {% endif %},
-
       ------------------DYNAMIC PART
       sum(
       -- This part summarises weights for unique rids at a yearly, quartely or overall level, other potential breakdown parameters are not featured here because they provide unique value for each rid
@@ -22,7 +19,6 @@ view: pop_size_dashboards {
                      or paneldata.date_month._is_selected or paneldata.date_granularity._parameter_value == 'Month'
                      or paneldata.date_quarter._is_selected or paneldata.date_granularity._parameter_value == 'Quarter'
                     %} a.weighting
-
       {% elsif paneldata.date_year._is_selected or paneldata.date_granularity._parameter_value == 'Year' %} case when a.yearrowno = 1 then a.weighting else 0 end
       {% else %} case when a.wholeperiodrowno = 1 then a.weighting else 0 end {% endif %}
         )
@@ -35,15 +31,12 @@ view: pop_size_dashboards {
                      or paneldata.date_month._is_selected or paneldata.date_granularity._parameter_value == 'Month'
                      or paneldata.date_quarter._is_selected or paneldata.date_granularity._parameter_value == 'Quarter'
                     %} a.panelyear, a.panelquarter {% else %} 1 {% endif %}
-
       --{% if householddemo.sec._is_selected %} a.sec {% else %} 1 {% endif %},
       --{% if householddemo.kidsgroup._is_selected %} a.kidsgroup {% else %} 1 {% endif %},
       --{% if householddemo.secgroup._is_selected %} a.secgroup {% else %} 1 {% endif %},
       --{% if householddemo.housholdplatform._is_selected %} a.housholdplatform {% else %} 1 {% endif %}
-
       ) dynamic
      -----------------END DYNAMIC PART
-
          from (
   --    select fw.*,    --SDR 01072020
       SELECT fw.RID,
@@ -58,7 +51,6 @@ view: pop_size_dashboards {
        row_number () over (partition by fw.country, fw.rid order by fw.panelyear desc, fw.panelquarter desc) wholeperiodrowno,
        row_number () over (partition by fw.country, fw.rid, fw.panelyear order by fw.panelquarter desc) yearrowno
       --at the quarter level weights table provides unique rids, but at more aggreate levels we need to cut off those that are repeated across quarters, hence row numbers
-
       from
       "CORE"."INTERNATIONALWEIGHTS" fw
       inner join "CORE"."PANELDATAINTERNATIONAL" pdq
@@ -108,11 +100,9 @@ view: pop_size_dashboards {
               {% condition householddemo.householdsize %} hd.householdsize {% endcondition %}
               and
               pdq.country in ({{ _user_attributes['netflix_v2_country_access'] }})
-
       group by 1,2,3,4,5--,6,7,8,9
       ) a
       ;;
-
   }
 
 #   dimension: pk {
