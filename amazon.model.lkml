@@ -35,11 +35,11 @@ explore: ext_paneldata_fce {
   label: "Amazon Client Explore"
 
 
-#   always_filter: {
-#     filters: {
-#       field: ext_paneldata_fce.countrynameformaps
-#     }
-#   }
+  always_filter: {
+    filters: {
+      field: ext_paneldata_fce.countrynameformaps
+    }
+  }
 
   #############################################################################################################################
   ## DS 20/03/20
